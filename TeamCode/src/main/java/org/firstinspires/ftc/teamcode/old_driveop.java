@@ -6,11 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class old_driveop {
 
 
 @TeleOp(name = "DriveOpMainDuocontrol (Blocks to Java)")
-public class DriveOpMainDuocontrol extends LinearOpMode {
+public class old_driveop extends LinearOpMode {
 
     private DcMotor backLeft;
     private DcMotor backRight;
