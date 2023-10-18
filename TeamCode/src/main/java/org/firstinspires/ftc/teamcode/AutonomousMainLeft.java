@@ -23,8 +23,6 @@ import java.util.List;
 @Autonomous(name = "AutonomousMainLeft (Blocks to Java)", preselectTeleOp = "DriveOp Main Duocontrol")
 public class AutonomousMainLeft extends LinearOpMode {
 
-    private VuforiaCurrentGame vuforiaPOWERPLAY;
-    private Tfod tfod;
     private Servo ClawLeftAsServo;
     private Servo ClawRightAsServo;
     private DcMotor ArmMotorAsDcMotor;
@@ -40,15 +38,11 @@ public class AutonomousMainLeft extends LinearOpMode {
      * This function is executed when this Op Mode is selected from the Driver Station.
      */
     @Override
-    public void runOpMode() {
+    public void runOpMode()
+    {
         List<Recognition> recognitions;
         int index;
 
-        vuforiaPOWERPLAY = new VuforiaCurrentGame();
-        tfod = new Tfod();
-        ClawLeftAsServo = hardwareMap.get(Servo.class, "ClawLeftAsServo");
-        ClawRightAsServo = hardwareMap.get(Servo.class, "ClawRightAsServo");
-        ArmMotorAsDcMotor = hardwareMap.get(DcMotor.class, "ArmMotorAsDcMotor");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -57,30 +51,6 @@ public class AutonomousMainLeft extends LinearOpMode {
 
         // Sample TFOD Op Mode
         // Initialize Vuforia.
-        vuforiaPOWERPLAY.initialize(
-                "", // vuforiaLicenseKey
-                hardwareMap.get(WebcamName.class, "Webcam 1"), // cameraName
-                "", // webcamCalibrationFilename
-                false, // useExtendedTracking
-                false, // enableCameraMonitoring
-                VuforiaLocalizer.Parameters.CameraMonitorFeedback.NONE, // cameraMonitorFeedback
-                0, // dx
-                0, // dy
-                0, // dz
-                AxesOrder.XZY, // axesOrder
-                90, // firstAngle
-                90, // secondAngle
-                0, // thirdAngle
-                true); // useCompetitionFieldTargetLocations
-        tfod.useDefaultModel();
-        // Set min confidence threshold to 0.7
-        tfod.initialize(vuforiaPOWERPLAY, (float) 0.7, true, true);
-        // Initialize TFOD before waitForStart.
-        // Activate TFOD here so the object detection labels are visible
-        // in the Camera Stream preview window on the Driver Station.
-        tfod.activate();
-        // Enable following block to zoom in on target.
-        tfod.setZoom(1, 16 / 9);
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -88,27 +58,8 @@ public class AutonomousMainLeft extends LinearOpMode {
         Init_IMU();
         waitForStart();
         // Get a list of recognitions from TFOD.
-        recognitions = tfod.getRecognitions();
-        // If list is empty, inform the user. Otherwise, go
-        // through list and display info for each recognition.
-        if (JavaUtil.listLength(recognitions) == 0) {
-            ClawLeftAsServo.setDirection(Servo.Direction.FORWARD);
-            ClawRightAsServo.setDirection(Servo.Direction.REVERSE);
-            ClawRightAsServo.setPosition(0.9);
-            ClawLeftAsServo.setPosition(0.9);
-            parking_right();
-        } else {
-            index = 0;
-            // Iterate through list and call a function to
-            // display info for each recognized object.
-            for (Recognition recognition_item : recognitions) {
-                recognition = recognition_item;
-                // Display info.
-                displayInfo(index);
-                // Increment index.
-                index = index + 1;
-            }
-            ClawLeftAsServo.setDirection(Servo.Direction.FORWARD);
+
+        ClawLeftAsServo.setDirection(Servo.Direction.FORWARD);
             ClawRightAsServo.setDirection(Servo.Direction.REVERSE);
             ClawRightAsServo.setPosition(0.9);
             ClawLeftAsServo.setPosition(0.9);
@@ -132,22 +83,7 @@ public class AutonomousMainLeft extends LinearOpMode {
             telemetry.update();
             // Put run blocks here.
             // Deactivate TFOD.
-            tfod.deactivate();
             // Put loop blocks here.
-            if (recognition.getLabel().equals("1 Bolt")) {
-                parking_left2();
-            }
-            if (recognition.getLabel().equals("2 Bulb")) {
-                sleep(1000);
-            }
-            if (recognition.getLabel().equals("3 Panel")) {
-                parking_right2();
-            }
-            telemetry.update();
-        }
-
-        vuforiaPOWERPLAY.close();
-        tfod.close();
     }
 
     /**
