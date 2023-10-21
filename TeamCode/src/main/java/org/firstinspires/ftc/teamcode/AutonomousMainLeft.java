@@ -142,7 +142,7 @@ public class AutonomousMainLeft extends LinearOpMode {
         Move_To_Position(430);
     }
 
-    /**
+    /**t
      * Describe this function...
      */
     private void turnRight(int turnRate) {
