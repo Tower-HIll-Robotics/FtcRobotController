@@ -4,12 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
 
-@TeleOp(name = "DriveOpMainDuocontrolOld   (Blocks to Java)")
+@TeleOp(name = "DriveOpMainDuocontrol (Blocks to Java)")
 public class old_driveop extends LinearOpMode {
 
     private DcMotor backLeft;
@@ -20,22 +19,16 @@ public class old_driveop extends LinearOpMode {
     private Servo ClawRight;
     private Servo ClawLeft;
 
-    double rightPower;
-    double Power;
-    double triggerPower;
-    String driveMode;
-    double leftPower;
-
     /**
      * This function is executed when this Op Mode is selected from the Driver Station.
      */
     @Override
     public void runOpMode() {
-        Gamepad previousGamePad1 = new Gamepad();
-        Gamepad currentGamePad1 = new Gamepad();
-        Gamepad previousGamePad2 = new Gamepad();
-        Gamepad currentGamePad2 = new Gamepad();
-
+        double rightPower;
+        double Power;
+        double triggerPower;
+        String driveMode;
+        double leftPower;
 
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
@@ -59,25 +52,20 @@ public class old_driveop extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                previousGamePad1.copy(currentGamePad1);
-                currentGamePad1.copy(gamepad1);
-                previousGamePad2.copy(currentGamePad2);
-                currentGamePad2.copy(gamepad2);
-
-                if (currentGamePad2.left_trigger != 0) {
+                if (gamepad2.left_trigger != 0) {
                     triggerPower = gamepad2.left_trigger * 0.5;
                 }
-                if (currentGamePad1.right_trigger != 0) {
+                if (gamepad2.right_trigger != 0) {
                     triggerPower = -(gamepad2.right_trigger * 1);
                 }
-                if (currentGamePad1.right_stick_x == 0) {
+                if (gamepad1.right_stick_x == 0) {
                     driveMode = "straight";
-                    leftPower = currentGamePad1.left_stick_y * Power;
-                    rightPower = currentGamePad1.left_stick_y * Power;
+                    leftPower = gamepad1.left_stick_y * Power;
+                    rightPower = gamepad1.left_stick_y * Power;
                 } else {
                     driveMode = "turn";
-                    leftPower = currentGamePad1.left_stick_y * Power - gamepad1.right_stick_x * Power;
-                    rightPower = currentGamePad1.left_stick_y * Power + gamepad1.right_stick_x * Power;
+                    leftPower = gamepad1.left_stick_y * Power - gamepad1.right_stick_x * Power;
+                    rightPower = gamepad1.left_stick_y * Power + gamepad1.right_stick_x * Power;
                 }
                 if (gamepad2.a) {
                     ClawLeft.setPosition(0.9);
