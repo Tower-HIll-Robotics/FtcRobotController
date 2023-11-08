@@ -8,10 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.List;
-
-@Autonomous(name = "AutonomousMainLeft (Blocks to Java)", preselectTeleOp = "DriveOp Main Duocontrol")
-public class AutonomousMainLeft2 extends LinearOpMode {
+@Autonomous(name = "AutonomousMainRedLeft", preselectTeleOp = "DriveOp Main Duocontrol")
+public class AutonomousMainRedLeft extends LinearOpMode {
 
     private DcMotor backRight;
     private DcMotor frontRight;
@@ -38,7 +36,7 @@ public class AutonomousMainLeft2 extends LinearOpMode {
         // Get a list of recognitions from TFOD.
 
         MoveForward(500);
-        turnRight(12000 );
+        MoveRight(12000 );
 
         // Put loop blocks here.
         telemetry.update();
@@ -105,7 +103,7 @@ public class AutonomousMainLeft2 extends LinearOpMode {
         Move_To_Position(distance);
     }
 
-    private void turnRight(int turnRate) {
+    private void MoveRight(int turnRate) {
         frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
         backLeft.setDirection(DcMotorEx.Direction.FORWARD);
         frontRight.setDirection(DcMotorEx.Direction.REVERSE);
