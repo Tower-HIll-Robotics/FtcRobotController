@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "AutonomousMainRedRight", preselectTeleOp = "DriveOp Main Duocontrol")
-public class AutonomousMainRedLeft extends LinearOpMode {
+public class AutonomousMainRedRight extends LinearOpMode {
 
     private DcMotor backRight;
     private DcMotor frontRight;
@@ -35,7 +35,7 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         waitForStart();
         // Get a list of recognitions from TFOD.
 
-        MoveRight(7200);
+        MoveRight(7000);
 
         // Put loop blocks here.
         telemetry.update();
