@@ -5,11 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "AutonomousMainRedRight", preselectTeleOp = "DriveOp Main Duocontrol")
-public class AutonomousMainRedRight extends LinearOpMode {
+@Autonomous(name = "AutonomousMainBlueLeft", preselectTeleOp = "DriveOp Main Duocontrol")
+public class AutonomousMainBlueLeft extends LinearOpMode {
 
     private DcMotor backRight;
     private DcMotor frontRight;
@@ -35,7 +33,7 @@ public class AutonomousMainRedRight extends LinearOpMode {
         waitForStart();
         // Get a list of recognitions from TFOD.
 
-        MoveRight(2500);
+        MoveLeft(2500);
 
         // Put loop blocks here.
         telemetry.update();
@@ -107,6 +105,14 @@ public class AutonomousMainRedRight extends LinearOpMode {
         backLeft.setDirection(DcMotorEx.Direction.FORWARD);
         frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         backRight.setDirection(DcMotorEx.Direction.FORWARD);
+        Move_To_Position(turnRate);
+    }
+
+    private void MoveLeft(int turnRate) {
+        frontLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRight.setDirection(DcMotorEx.Direction.FORWARD);
+        backRight.setDirection(DcMotorEx.Direction.REVERSE);
         Move_To_Position(turnRate);
     }
 }

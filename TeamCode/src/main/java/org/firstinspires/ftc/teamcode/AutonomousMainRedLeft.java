@@ -35,8 +35,8 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         waitForStart();
         // Get a list of recognitions from TFOD.
 
-        MoveForward(500);
-        MoveRight(12000 );
+        MoveForward(200);
+        MoveRight(5000);
 
         // Put loop blocks here.
         telemetry.update();
@@ -108,6 +108,14 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         backLeft.setDirection(DcMotorEx.Direction.FORWARD);
         frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         backRight.setDirection(DcMotorEx.Direction.FORWARD);
+        Move_To_Position(turnRate);
+    }
+
+    private void MoveLeft(int turnRate) {
+        frontLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRight.setDirection(DcMotorEx.Direction.FORWARD);
+        backRight.setDirection(DcMotorEx.Direction.REVERSE);
         Move_To_Position(turnRate);
     }
 }
