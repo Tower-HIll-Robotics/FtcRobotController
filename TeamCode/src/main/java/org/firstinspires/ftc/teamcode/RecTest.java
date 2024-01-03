@@ -61,10 +61,10 @@ public class RecTest extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
+    private int markerPosition;
 
     @Override
     public void runOpMode() {
-
         initTfod();
 
         // Wait for the DS start button to be touched.
@@ -175,6 +175,24 @@ public class RecTest extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+
+            // if x < (some range for left side) and x > (some range for left side)
+            // 2 means center
+            if ((x > 400) && (x < 450)) {
+                markerPosition = 2;
+                telemetry.addData("Position: ","Center");
+            }
+            // 1 means left most
+            else if ((x > 190) && (x < 220)) {
+                markerPosition = 1;
+                telemetry.addData("Position: ","Left");
+            }
+            //3 means right most
+            else {
+                markerPosition = 3;
+                telemetry.addData("Position: ","Right");
+            }
+
         }   // end for() loop
 
     }   // end method telemetryTfod()
