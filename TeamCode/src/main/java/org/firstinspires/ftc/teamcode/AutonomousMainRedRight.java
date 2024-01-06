@@ -32,6 +32,9 @@ public class AutonomousMainRedRight extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
 
         // Wait for start command from Driver Station.
         Init_IMU();
