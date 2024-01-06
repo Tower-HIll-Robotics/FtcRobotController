@@ -15,6 +15,9 @@ public class AutonomousMainRedRight extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor frontLeft;
     private DcMotor backLeft;
+    private Servo clawLeft;
+    private Servo clawRight;
+    private DcMotor armMotor;
     private BNO055IMU imu;
 
 
@@ -34,9 +37,14 @@ public class AutonomousMainRedRight extends LinearOpMode {
         Init_IMU();
         waitForStart();
         // Get a list of recognitions from TFOD.
+        clawLeft.setPosition(0.9);
+        clawRight.setPosition(0.9);
 
         MoveRight(2500);
+        MoveForward(200);
 
+        clawLeft.setPosition(0.46);
+        clawRight.setPosition(0.460);
         // Put loop blocks here.
         telemetry.update();
         // Put run blocks here.
@@ -93,7 +101,6 @@ public class AutonomousMainRedRight extends LinearOpMode {
         // Sleep a quarter second to let the robot stop
         sleep(1000);
     }
-
     private void MoveForward(int distance) {
         frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
         backLeft.setDirection(DcMotorEx.Direction.REVERSE);
