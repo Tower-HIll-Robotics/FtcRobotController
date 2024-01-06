@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "AutonomousMainBlueLeft", preselectTeleOp = "DriveOp Main Duocontrol")
 public class AutonomousMainBlueLeft extends LinearOpMode {
@@ -14,6 +15,11 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor backLeft;
     private BNO055IMU imu;
+
+    private Servo clawLeft;
+    private Servo clawRight;
+
+    private DcMotor armMotor;
 
 
     /**
@@ -27,13 +33,24 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
 
         // Wait for start command from Driver Station.
         Init_IMU();
         waitForStart();
         // Get a list of recognitions from TFOD.
 
+        //open claw
+        clawLeft.setPosition(0.9);
+        clawRight.setPosition(0.9);
+
         MoveLeft(2500);
+
+        //close claw
+        clawLeft.setPosition(0.46);
+        clawRight.setPosition(0.460);
 
         // Put loop blocks here.
         telemetry.update();
