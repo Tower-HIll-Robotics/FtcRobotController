@@ -50,14 +50,17 @@ public class AutonomousMainBlueRight extends LinearOpMode {
         clawRight.setPosition(0.46);
 
         sleep(1000);
-        MoveForward(100);
-        MoveLeft(5000);
 
+        MoveForward(80);
 
+        TurnLeft(750);
+
+        MoveForward(4100);
 
         //open claw
         clawLeft.setPosition(0.9);
         clawRight.setPosition(0.9);
+
 
         // Put loop blocks here.
         telemetry.update();
@@ -139,6 +142,20 @@ public class AutonomousMainBlueRight extends LinearOpMode {
         frontLeft.setDirection(DcMotorEx.Direction.FORWARD);
         backLeft.setDirection(DcMotorEx.Direction.REVERSE);
         frontRight.setDirection(DcMotorEx.Direction.FORWARD);
+        backRight.setDirection(DcMotorEx.Direction.REVERSE);
+        Move_To_Position(turnRate);
+    }
+    private void TurnLeft(int turnRate) {
+        frontLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        backLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        frontRight.setDirection(DcMotorEx.Direction.FORWARD);
+        backRight.setDirection(DcMotorEx.Direction.FORWARD);
+        Move_To_Position(turnRate);
+    }
+    private void TurnRight(int turnRate) {
+        frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         backRight.setDirection(DcMotorEx.Direction.REVERSE);
         Move_To_Position(turnRate);
     }

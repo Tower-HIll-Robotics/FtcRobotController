@@ -52,7 +52,7 @@ public class AutonomousMainRedRight extends LinearOpMode {
 
         sleep(1000);
         MoveForward(80);
-        MoveRight(1800);
+        MoveRight(2000);
 
 
         //open claw

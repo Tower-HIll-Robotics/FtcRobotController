@@ -183,7 +183,7 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
                 Power = .25;
             }
             else if (Power < -0.3){
-                Power = -.1;
+                Power = -.15;
             }
             armMotor.setPower(Power);
 

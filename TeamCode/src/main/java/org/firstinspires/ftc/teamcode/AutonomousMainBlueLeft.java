@@ -50,8 +50,8 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         clawRight.setPosition(0.46);
 
         sleep(1000);
-        MoveForward(100);
-        MoveLeft(2500);
+        MoveForward(80);
+        MoveLeft(2000);
 
 
 
