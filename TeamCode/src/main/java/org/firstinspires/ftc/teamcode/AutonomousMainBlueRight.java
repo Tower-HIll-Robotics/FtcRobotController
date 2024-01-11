@@ -36,23 +36,28 @@ public class AutonomousMainBlueRight extends LinearOpMode {
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        clawRight.setDirection(Servo.Direction.REVERSE);
+
 
         // Wait for start command from Driver Station.
         Init_IMU();
         waitForStart();
         // Get a list of recognitions from TFOD.
 
-        //open claw
-        clawLeft.setPosition(0.9);
-        clawRight.setPosition(0.9);
-
-        MoveForward(200);
-        MoveLeft(5000);
 
         //close claw
         clawLeft.setPosition(0.46);
-        clawRight.setPosition(0.460);
+        clawRight.setPosition(0.46);
 
+        sleep(1000);
+        MoveForward(100);
+        MoveLeft(5000);
+
+
+
+        //open claw
+        clawLeft.setPosition(0.9);
+        clawRight.setPosition(0.9);
 
         // Put loop blocks here.
         telemetry.update();
@@ -94,6 +99,7 @@ public class AutonomousMainBlueRight extends LinearOpMode {
         frontLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
+
         // Turn on the motors using a moderate power
         backLeft.setPower(0.9);
         backRight.setPower(0.9);
@@ -108,6 +114,7 @@ public class AutonomousMainBlueRight extends LinearOpMode {
         backRight.setPower(0);
         frontLeft.setPower(0);
         frontRight.setPower(0);
+
         // Sleep a quarter second to let the robot stop
         sleep(1000);
     }

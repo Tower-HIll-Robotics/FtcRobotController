@@ -180,10 +180,10 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             double Power = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
 
             if (Power > 0.3){
-                Power = .3;
+                Power = .25;
             }
             else if (Power < -0.3){
-                Power = -3;
+                Power = -.1;
             }
             armMotor.setPower(Power);
 
