@@ -43,21 +43,23 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         Init_IMU();
         waitForStart();
         // Get a list of recognitions from TFOD.
-
-
-        //close claw
+//close claw
         clawLeft.setPosition(0.46);
         clawRight.setPosition(0.46);
+
+        sleep(2000);
+
+        armMotor.setPower(-.2);
 
         sleep(1000);
         MoveForward(80);
         MoveLeft(2000);
 
 
-
-        //open claw
         clawLeft.setPosition(0.9);
         clawRight.setPosition(0.9);
+
+        sleep(2000);
 
         // Put loop blocks here.
         telemetry.update();
