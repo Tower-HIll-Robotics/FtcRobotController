@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import java.util.List;
 
 
-@Autonomous(name = "AutonomousMainRedLeft", preselectTeleOp = "BasicOmniOpMode_Servotest")
+@Autonomous(name = "REC_AUTO_TEST", preselectTeleOp = "BasicOmniOpMode_Servotest")
 public class REC_AUTO_TEST extends LinearOpMode {
 
     private DcMotor backRight;
