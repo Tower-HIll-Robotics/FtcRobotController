@@ -46,10 +46,10 @@ public class REC_AUTO_TEST extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        clawRight = hardwareMap.get(Servo.class, "clawRight");
-        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
-        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
-        clawRight.setDirection(Servo.Direction.REVERSE);
+        //clawRight = hardwareMap.get(Servo.class, "clawRight");
+        //clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        //armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        //clawRight.setDirection(Servo.Direction.REVERSE);
 
 
 
@@ -81,12 +81,12 @@ public class REC_AUTO_TEST extends LinearOpMode {
 
                 // if x < (some range for left side) and x > (some range for left side)
                 // 2 means center
-                if ((x > 400) && (x < 450)) {
+                if ((x > 268) && (x < 520)) {
                     markerPosition = 2;
                     telemetry.addData("Position: ","Center");
                 }
                 // 1 means left most
-                else if ((x > 190) && (x < 220)) {
+                else if ((x > 0) && (x < 268)) {
                     markerPosition = 1;
                     telemetry.addData("Position: ","Left");
                 }
@@ -100,25 +100,46 @@ public class REC_AUTO_TEST extends LinearOpMode {
 
 
 
-
-            clawLeft.setPosition(0.46);
-            clawRight.setPosition(0.46);
+            //clawLeft.setPosition(0.46);
+            //clawRight.setPosition(0.46);
 
             sleep(2000);
 
-            armMotor.setPower(-.2);
+            //armMotor.setPower(-.2);
+
+            //sleep(1000);
+            MoveForward(1300);
 
             sleep(1000);
 
+            if (markerPosition == 3) {
+                TurnRight(750);
 
-            MoveForward(80);
+                sleep(1000);
 
-            TurnRight(750);
+                //clawLeft.setPosition(0.9);
+                //clawRight.setPosition(0.9);
+            }
+            else if (markerPosition == 1) {
+                TurnLeft(750);
 
-            MoveForward(4100);
+                sleep(1000);
 
-            clawLeft.setPosition(0.9);
-            clawRight.setPosition(0.9);
+                //clawLeft.setPosition(0.9);
+                //clawRight.setPosition(0.9);
+
+                sleep(1000);
+
+                TurnRight(1500);
+            }
+            else {
+                //clawLeft.setPosition(0.9);
+                //clawRight.setPosition(0.9);
+
+                sleep(1000);
+
+                TurnRight(750);
+            }
 
             sleep(2000);
 
