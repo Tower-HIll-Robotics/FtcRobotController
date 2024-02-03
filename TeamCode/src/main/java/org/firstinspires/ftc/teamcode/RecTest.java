@@ -103,6 +103,7 @@ public class RecTest extends LinearOpMode {
      */
     private void initTfod() {
 
+
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
                 .setModelFileName("Marker")
@@ -140,7 +141,8 @@ public class RecTest extends LinearOpMode {
         //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
 
         // Choose whether or not LiveView stops if no processors are enabled.
-        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "true", monitor shows solid orange screen if no pro
+        // cessors enabled.
         // If set "false", monitor shows camera view without annotations.
         //builder.setAutoStopLiveView(false);
 

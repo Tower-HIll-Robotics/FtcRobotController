@@ -7,19 +7,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "AutonomousMainBlueLeft", preselectTeleOp = "DriveOp Main Duocontrol")
-public class AutonomousMainBlueLeft extends LinearOpMode {
+@Autonomous(name = "AutonomousMainRedLeft2", preselectTeleOp = "DriveOp Main Duocontrol")
+public class AutonomousMainRedLeft2 extends LinearOpMode {
 
     private DcMotor backRight;
     private DcMotor frontRight;
     private DcMotor frontLeft;
     private DcMotor backLeft;
-    private BNO055IMU imu;
-
     private Servo clawLeft;
     private Servo clawRight;
-
     private DcMotor armMotor;
+    private BNO055IMU imu;
 
 
     /**
@@ -43,7 +41,6 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         Init_IMU();
         waitForStart();
         // Get a list of recognitions from TFOD.
-//close claw
         clawLeft.setPosition(0.46);
         clawRight.setPosition(0.46);
 
@@ -52,15 +49,15 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         armMotor.setPower(-.2);
 
         sleep(1000);
-        MoveForward(80);
-        MoveLeft(2000);
 
+        MoveForward(2000);
+        TurnRight(750);
+        MoveForward(4100);
 
         clawLeft.setPosition(0.9);
         clawRight.setPosition(0.9);
 
         sleep(2000);
-
         // Put loop blocks here.
         telemetry.update();
         // Put run blocks here.
@@ -90,7 +87,7 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
     }
 
     private void Move_To_Position(int targetPosition) {
-        // Reset the encodersasd
+        // Reset the encoders
         backLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -100,6 +97,8 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         backRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+
         // Turn on the motors using a moderate power
         backLeft.setPower(0.9);
         backRight.setPower(0.9);
@@ -109,7 +108,7 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         while (backLeft.getCurrentPosition() < targetPosition && frontLeft.getCurrentPosition() < targetPosition) {
             // Nothing while the robot moves forward
         }
-        // Turn the motors off
+        // Turn the motors off+
         backLeft.setPower(0);
         backRight.setPower(0);
         frontLeft.setPower(0);
@@ -117,7 +116,6 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         // Sleep a quarter second to let the robot stop
         sleep(1000);
     }
-
     private void MoveForward(int distance) {
         frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
         backLeft.setDirection(DcMotorEx.Direction.REVERSE);
@@ -133,11 +131,17 @@ public class AutonomousMainBlueLeft extends LinearOpMode {
         backRight.setDirection(DcMotorEx.Direction.FORWARD);
         Move_To_Position(turnRate);
     }
-
-    private void MoveLeft(int turnRate) {
+    private void TurnLeft(int turnRate) {
         frontLeft.setDirection(DcMotorEx.Direction.FORWARD);
-        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeft.setDirection(DcMotorEx.Direction.FORWARD);
         frontRight.setDirection(DcMotorEx.Direction.FORWARD);
+        backRight.setDirection(DcMotorEx.Direction.FORWARD);
+        Move_To_Position(turnRate);
+    }
+    private void TurnRight(int turnRate) {
+        frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         backRight.setDirection(DcMotorEx.Direction.REVERSE);
         Move_To_Position(turnRate);
     }

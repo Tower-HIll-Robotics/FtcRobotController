@@ -6,16 +6,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import java.util.List;
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
+
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import java.util.List;
 
-@Autonomous(name = "AutonomousMainRedLeft", preselectTeleOp = "BasicOmniOpMode_Servotest")
-public class AutonomousMainRedLeft extends LinearOpMode {
+
+@Autonomous(name = "REC_AUTO_TEST", preselectTeleOp = "BasicOmniOpMode_Servotest")
+public class REC_AUTO_TEST extends LinearOpMode {
 
     private DcMotor backRight;
     private DcMotor frontRight;
@@ -30,6 +31,9 @@ public class AutonomousMainRedLeft extends LinearOpMode {
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
 
+    private int markerPosition;
+
+
 
     /**
      * This function is executed when this Op Mode is selected from the Driver Station.
@@ -42,10 +46,14 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        clawRight = hardwareMap.get(Servo.class, "clawRight");
-        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
-        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
-        clawRight.setDirection(Servo.Direction.REVERSE);
+        //clawRight = hardwareMap.get(Servo.class, "clawRight");
+        //clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        //armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        //clawRight.setDirection(Servo.Direction.REVERSE);
+
+
+
+        initTfod();
 
 
         // Wait for start command from Driver Station.
@@ -58,26 +66,84 @@ public class AutonomousMainRedLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
 
+            sleep(3000);
+
+            List<Recognition> currentRecognitions = tfod.getRecognitions();
+            telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+            // Step through the list of recognitions and display info for each one.
+            for (Recognition recognition : currentRecognitions) {
+                double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+                double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
+                telemetry.addData(""," ");
+                telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                telemetry.addData("- Position", "%.0f / %.0f", x, y);
+                telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+                telemetry.update();
 
 
-            clawLeft.setPosition(0.46);
-            clawRight.setPosition(0.46);
+                // if x < (some range for left side) and x > (some range for left side)
+                // 2 means center
+                if ((x > 268) && (x < 520)) {
+                    markerPosition = 2;
+                    telemetry.addData("Position: ","Center");
+                }
+                // 1 means left most
+                else if ((x > 0) && (x < 268)) {
+                    markerPosition = 1;
+                    telemetry.addData("Position: ","Left");
+                }
+                //3 means right most
+                else {
+                    markerPosition = 3;
+                    telemetry.addData("Position: ","Right");
+                }
+                telemetry.update();
+            }   // end for() loop
+
+
+
+            //clawLeft.setPosition(0.46);
+            //clawRight.setPosition(0.46);
 
             sleep(2000);
 
-            armMotor.setPower(-.2);
+            //armMotor.setPower(-.2);
+
+            //sleep(1000);
+            MoveForward(1300);
 
             sleep(1000);
 
+            if (markerPosition == 3) {
+                TurnRight(750);
 
-            MoveForward(80);
+                sleep(1000);
 
-            TurnRight(750);
+                //clawLeft.setPosition(0.9);
+                //clawRight.setPosition(0.9);
+            }
+            else if (markerPosition == 1) {
+                TurnLeft(750);
 
-            MoveForward(4100);
+                sleep(1000);
 
-            clawLeft.setPosition(0.9);
-            clawRight.setPosition(0.9);
+                //clawLeft.setPosition(0.9);
+                //clawRight.setPosition(0.9);
+
+                sleep(1000);
+
+                TurnRight(1500);
+            }
+            else {
+                //clawLeft.setPosition(0.9);
+                //clawRight.setPosition(0.9);
+
+                sleep(1000);
+
+                TurnRight(750);
+            }
 
             sleep(2000);
 
@@ -175,6 +241,63 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         backRight.setDirection(DcMotorEx.Direction.REVERSE);
         Move_To_Position(turnRate);
     }
+
+    private void initTfod() {
+
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
+                .setModelFileName("Marker")
+
+                // Use setModelAssetName() if the TF Model is built in as an asset.
+                // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                //.setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
+
+                //.setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
+
+                .build();
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        // Choose a camera resolution. Not all cameras support all resolutions.
+        //builder.setCameraResolution(new Size(640, 480));
+
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        //builder.enableCameraMonitoring(true);
+
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        //builder.setAutoStopLiveView(false);
+
+        // Set and enable the processor.
+        builder.addProcessor(tfod);
+
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+
+        // Set confidence threshold for TFOD recognitions, at any time.
+        //tfod.setMinResultConfidence(0.75f);
+
+        // Disable or re-enable the TFOD processor at any time.
+        //visionPortal.setProcessorEnabled(tfod, true);
+
+    }   // end method initTfod()
 
 }
     /**

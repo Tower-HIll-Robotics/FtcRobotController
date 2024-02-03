@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -78,8 +79,14 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
     private DcMotor frontLeft = null;
     private DcMotor frontRight = null;
 
+    private DcMotor outtakeLeft = null;
+
+    private DcMotor outtakeRight = null;
+
     private Servo clawLeft;
     private Servo clawRight;
+    private Servo outWrist;
+    private Servo outTip;
 
     private DcMotor armMotor;
 
@@ -95,6 +102,8 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        outtakeRight = hardwareMap.get(DcMotor.class, "outtakeRight");
+        outtakeLeft = hardwareMap.get(DcMotor.class, "outtakeLeft");
 
 
 
@@ -115,12 +124,17 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         frontRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         frontRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        outtakeLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        outtakeRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
@@ -129,6 +143,10 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         backRight.setDirection(DcMotorEx.Direction.FORWARD);
         clawRight.setDirection(Servo.Direction.REVERSE);
         armMotor.setTargetPosition(0);
+        outtakeLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        outtakeRight.setDirection(DcMotorEx.Direction.FORWARD);
+
+
 
 
 
@@ -170,22 +188,26 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-                clawLeft.setPosition(0.9);
-                clawRight.setPosition(0.9);
+                clawLeft.setPosition(.05);
+                clawRight.setPosition(.2);
             }
             if (gamepad1.b) {
-                clawLeft.setPosition(0.46);
-                clawRight.setPosition(0.460);
+                clawLeft.setPosition(0.36);
+                clawRight.setPosition(0.5);
             }
-            double Power = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
+            double PowerOuttake = (gamepad2.right_trigger * 0.85) + (gamepad2.left_trigger * -0.85);
+            double PowerIntake = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
 
-            if (Power > 0.3){
-                Power = .3;
-            }
-            else if (Power < -0.3){
-                Power = -3;
-            }
-            armMotor.setPower(Power);
+
+            //if (Power > 0.3){
+                //Power = .25;
+            //}
+            //else if (Power < -0.3){
+                //Power = -.15;
+            //}
+            outtakeLeft.setPower(PowerOuttake);
+            outtakeRight.setPower(PowerOuttake);
+            armMotor.setPower(PowerIntake);
 
 
             // This is test code:
