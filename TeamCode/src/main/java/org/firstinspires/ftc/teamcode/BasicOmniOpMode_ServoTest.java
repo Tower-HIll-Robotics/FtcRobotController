@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -84,6 +85,8 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
 
     private Servo clawLeft;
     private Servo clawRight;
+    private Servo outWrist;
+    private Servo outTip;
 
     private DcMotor armMotor;
 
@@ -100,7 +103,7 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         outtakeRight = hardwareMap.get(DcMotor.class, "outtakeRight");
-        outtakeLeft = hardwareMap.get(DcMotor.class, "outt akeLeft");
+        outtakeLeft = hardwareMap.get(DcMotor.class, "outtakeLeft");
 
 
 
@@ -185,14 +188,15 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-                clawLeft.setPosition(0.9);
-                clawRight.setPosition(0.9);
+                clawLeft.setPosition(.05);
+                clawRight.setPosition(.2);
             }
             if (gamepad1.b) {
-                clawLeft.setPosition(0.46);
-                clawRight.setPosition(0.460);
+                clawLeft.setPosition(0.36);
+                clawRight.setPosition(0.5);
             }
-            double Power = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
+            double PowerOuttake = (gamepad2.right_trigger * 0.85) + (gamepad2.left_trigger * -0.85);
+            double PowerIntake = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
 
 
             //if (Power > 0.3){
@@ -201,8 +205,9 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             //else if (Power < -0.3){
                 //Power = -.15;
             //}
-            outtakeLeft.setPower(Power);
-            outtakeRight.setPower(Power);
+            outtakeLeft.setPower(PowerOuttake);
+            outtakeRight.setPower(PowerOuttake);
+            armMotor.setPower(PowerIntake);
 
 
             // This is test code:
