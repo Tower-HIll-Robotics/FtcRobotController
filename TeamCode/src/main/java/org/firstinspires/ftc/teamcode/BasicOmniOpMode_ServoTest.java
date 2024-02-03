@@ -87,6 +87,10 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
 
     private DcMotor armMotor;
 
+    private Servo outTip = null;
+
+    private Servo outWrist = null;
+
     @Override
     public void runOpMode() {
 
@@ -100,7 +104,9 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         outtakeRight = hardwareMap.get(DcMotor.class, "outtakeRight");
-        outtakeLeft = hardwareMap.get(DcMotor.class, "outt akeLeft");
+        outtakeLeft = hardwareMap.get(DcMotor.class, "outtakeLeft");
+        outTip = hardwareMap.get(Servo.class, "outTip");
+        outWrist = hardwareMap.get(Servo.class, "outWrist");
 
 
 
@@ -155,6 +161,9 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+        double pos = .5;
+        outWrist.setPosition(pos);
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
@@ -184,25 +193,45 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
                 backRightPower  /= max;
             }
 
-            if (gamepad1.a) {
+            if (gamepad2.a) {
                 clawLeft.setPosition(0.9);
                 clawRight.setPosition(0.9);
             }
-            if (gamepad1.b) {
+            if (gamepad2.b) {
                 clawLeft.setPosition(0.46);
-                clawRight.setPosition(0.460);
+                clawRight.setPosition(0.46);
             }
-            double Power = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
 
+            if (gamepad1.x) {
+                outTip.setPosition(0.5);
+            }
+            if (gamepad1.y) {
+                outTip.setPosition(0.75);
+            }
+            if (gamepad1.dpad_down) {
+                pos = pos - .01;
+                outWrist.setPosition(pos);
+                sleep(10);
+            }
+            if (gamepad1.dpad_up) {
+                pos = pos + .01;
+                outWrist.setPosition(pos);
+                sleep(10);
+            }
+            double PowerOuttake = (gamepad1.right_trigger * 0.7) + (gamepad1.left_trigger * -0.7);
 
-            //if (Power > 0.3){
-                //Power = .25;
-            //}
-            //else if (Power < -0.3){
-                //Power = -.15;
-            //}
-            outtakeLeft.setPower(Power);
-            outtakeRight.setPower(Power);
+            double PowerIntake = (gamepad2.right_trigger * 0.85) + (gamepad2.left_trigger * -0.85);
+
+            if (PowerIntake > 0.25){
+                PowerIntake = .25;
+            }
+            else if (PowerIntake < -0.15){
+                PowerIntake = -.15;
+            }
+
+            outtakeLeft.setPower(PowerOuttake);
+            outtakeRight.setPower(PowerOuttake);
+            armMotor.setPower(PowerIntake);
 
 
             // This is test code:

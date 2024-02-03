@@ -66,6 +66,8 @@ public class REC_AUTO_TEST extends LinearOpMode {
 
         if (opModeIsActive()) {
 
+            sleep(3000);
+
             List<Recognition> currentRecognitions = tfod.getRecognitions();
             telemetry.addData("# Objects Detected", currentRecognitions.size());
 
@@ -78,6 +80,8 @@ public class REC_AUTO_TEST extends LinearOpMode {
                 telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
                 telemetry.addData("- Position", "%.0f / %.0f", x, y);
                 telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+                telemetry.update();
+
 
                 // if x < (some range for left side) and x > (some range for left side)
                 // 2 means center
@@ -95,7 +99,7 @@ public class REC_AUTO_TEST extends LinearOpMode {
                     markerPosition = 3;
                     telemetry.addData("Position: ","Right");
                 }
-
+                telemetry.update();
             }   // end for() loop
 
 
