@@ -211,6 +211,18 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             if (gamepad2.y) {
                 outWrist.setPosition(1);
             }
+            if (gamepad2.a) {
+                outTip.setPosition(.5);
+            }
+            if (gamepad2.b) {
+                outTip.setPosition(.9);
+            }
+            if (gamepad2.x) {
+                outWrist.setPosition(.3);
+            }
+            if (gamepad2.y) {
+                outWrist.setPosition(.9);
+            }
             double PowerOuttake = (gamepad2.right_trigger * 0.85) + (gamepad2.left_trigger * -0.85);
             double PowerIntake = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
 
