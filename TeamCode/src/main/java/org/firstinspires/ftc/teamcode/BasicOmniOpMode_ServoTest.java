@@ -228,10 +228,10 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
 
 
             //if (Power > 0.3){
-                //Power = .25;
+            //Power = .25;
             //}
             //else if (Power < -0.3){
-                //Power = -.15;
+            //Power = -.15;
             //}
             outtakeLeft.setPower(PowerOuttake);
             outtakeRight.setPower(PowerOuttake);
