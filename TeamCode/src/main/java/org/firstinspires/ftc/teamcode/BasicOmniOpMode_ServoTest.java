@@ -88,6 +88,8 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
     private Servo outWrist;
     private Servo outTip;
 
+    private Servo airLaunch;
+
     private DcMotor armMotor;
 
     @Override
@@ -106,6 +108,7 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         outtakeLeft = hardwareMap.get(DcMotor.class, "outtakeLeft");
         outWrist = hardwareMap.get(Servo.class, "outWrist");
         outTip = hardwareMap.get(Servo.class, "outTip");
+        airLaunch = hardwareMap.get(Servo.class, "airLaunch");
 
 
 
@@ -200,39 +203,43 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
                 clawRight.setPosition(0.5);
             }
             if (gamepad2.a) {
-                outTip.setPosition(.5);
+                outTip.setPosition(.8);
             }
             if (gamepad2.b) {
-                outTip.setPosition(.9);
+                outTip.setPosition(-.9);
             }
             if (gamepad2.x) {
-                outWrist.setPosition(.5);
+                outWrist.setPosition(.415);
             }
             if (gamepad2.y) {
-                outWrist.setPosition(1);
+                outWrist.setPosition(.8);
             }
-            if (gamepad2.a) {
-                outTip.setPosition(.5);
+            if (gamepad1.right_trigger > 0) {
+                outWrist.setPosition(.415);
             }
-            if (gamepad2.b) {
-                outTip.setPosition(.9);
-            }
-            if (gamepad2.x) {
-                outWrist.setPosition(.3);
-            }
-            if (gamepad2.y) {
+
+            if (gamepad1.left_trigger > 0) {
                 outWrist.setPosition(.9);
             }
+
+            if (gamepad1.dpad_up) {
+                airLaunch.setPosition(1);
+            }
+
+            if (gamepad1.dpad_down) {
+                airLaunch.setPosition(0);
+            }
+
             double PowerOuttake = (gamepad2.right_trigger * 0.85) + (gamepad2.left_trigger * -0.85);
             double PowerIntake = (gamepad1.right_trigger * 0.85) + (gamepad1.left_trigger * -0.85);
 
+            if (PowerIntake > 0.25){
+                PowerIntake = .25;
+            }
+            else if (PowerIntake < -0.15){
+                PowerIntake = -.15;
+            }
 
-            //if (Power > 0.3){
-            //Power = .25;
-            //}
-            //else if (Power < -0.3){
-            //Power = -.15;
-            //}
             outtakeLeft.setPower(PowerOuttake);
             outtakeRight.setPower(PowerOuttake);
             armMotor.setPower(PowerIntake);

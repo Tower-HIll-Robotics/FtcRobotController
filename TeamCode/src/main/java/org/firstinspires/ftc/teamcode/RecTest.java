@@ -52,6 +52,7 @@ public class RecTest extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
+
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
@@ -180,12 +181,12 @@ public class RecTest extends LinearOpMode {
 
             // if x < (some range for left side) and x > (some range for left side)
             // 2 means center
-            if ((x > 400) && (x < 450)) {
+            if ((x > 355) && (x < 450)) {
                 markerPosition = 2;
                 telemetry.addData("Position: ","Center");
             }
             // 1 means left most
-            else if ((x > 190) && (x < 220)) {
+            else if ((x > 0) && (x < 150)) {
                 markerPosition = 1;
                 telemetry.addData("Position: ","Left");
             }
@@ -195,8 +196,8 @@ public class RecTest extends LinearOpMode {
                 telemetry.addData("Position: ","Right");
             }
 
-        }   // end for() loop
-
+            telemetry.update();
+        }
     }   // end method telemetryTfod()
 
 }   // end class
