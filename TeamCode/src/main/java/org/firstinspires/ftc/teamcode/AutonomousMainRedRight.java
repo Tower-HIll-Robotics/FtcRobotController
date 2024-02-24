@@ -35,6 +35,12 @@ public class AutonomousMainRedRight extends LinearOpMode {
 
     private DcMotor armMotor;
 
+    private DcMotor outtakeLeft = null;
+
+    private DcMotor outtakeRight = null;
+    private Servo outWrist;
+    private Servo outTip;
+
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
 
@@ -56,16 +62,17 @@ public class AutonomousMainRedRight extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
-        backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
+        frontLeft  = hardwareMap.get(DcMotorEx.class, "frontLeft");
+        backLeft  = hardwareMap.get(DcMotorEx.class, "backLeft");
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
-        clawRight.setDirection(Servo.Direction.REVERSE);
-
+        outtakeRight = hardwareMap.get(DcMotor.class, "outtakeRight");
+        outtakeLeft = hardwareMap.get(DcMotor.class, "outtakeLeft");
+        outWrist = hardwareMap.get(Servo.class, "outWrist");
+        outTip = hardwareMap.get(Servo.class, "outTip");
 
 
         // Wait for start command from Driver Station.
@@ -149,9 +156,25 @@ public class AutonomousMainRedRight extends LinearOpMode {
         MoveBackward(850);
 
         sleep(1000);
+        if (markerPosition == 3) {
+            MoveLeft(10);
+        }
+        if (markerPosition == 1) {
+            MoveRight(10);
+        }
+        //align it with the board
+        outWrist.setPosition(0.8);
 
         Arm_To_Position(10);
-        outWrist.setPosition(0.5);
+
+        sleep(500);
+
+        //open the outtake
+
+        outTip.setPosition(-0.9);
+
+        //drive forward
+        MoveForward(50);
 
 
     }   // end method telemetryTfod()
@@ -218,17 +241,21 @@ public class AutonomousMainRedRight extends LinearOpMode {
 
     private void Arm_To_Position(int targetPosition) {
         // Reset the encoders
-        armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        outtakeLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        outtakeRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
 
         // Put motors in encoder mode
-        armMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        outtakeLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        outtakeRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         // Turn on the motors using a moderate power
-        armMotor.setPower(0.5);
+        outtakeLeft.setPower(0.5);
+        outtakeRight.setPower(0.5);
 
         // Loop until the motor reaches its target position
-        while (armMotor.getCurrentPosition() < targetPosition) {
+        while (outtakeLeft.getCurrentPosition() < targetPosition && outtakeRight.getCurrentPosition() < targetPosition) {
             // Nothing while the robot moves forward
         }
         // Turn the motors off

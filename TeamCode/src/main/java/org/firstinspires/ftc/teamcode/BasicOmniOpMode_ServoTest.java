@@ -195,7 +195,7 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-                clawLeft.setPosition(.05);
+                clawLeft.setPosition(.015);
                 clawRight.setPosition(.2);
             }
             if (gamepad1.b) {
@@ -209,17 +209,17 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
                 outTip.setPosition(-.9);
             }
             if (gamepad2.x) {
-                outWrist.setPosition(.415);
+                outWrist.setPosition(.45);
             }
             if (gamepad2.y) {
                 outWrist.setPosition(.8);
             }
             if (gamepad1.right_trigger > 0) {
-                outWrist.setPosition(.415);
+                outWrist.setPosition(.45);
             }
 
             if (gamepad1.left_trigger > 0) {
-                outWrist.setPosition(.9);
+                outWrist.setPosition(.8);
             }
 
             if (gamepad1.dpad_up) {
