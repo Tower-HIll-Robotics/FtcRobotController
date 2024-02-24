@@ -209,13 +209,13 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
                 outTip.setPosition(-.9);
             }
             if (gamepad2.x) {
-                outWrist.setPosition(.45);
+                outWrist.setPosition(.453);
             }
             if (gamepad2.y) {
                 outWrist.setPosition(.8);
             }
             if (gamepad1.right_trigger > 0) {
-                outWrist.setPosition(.45);
+                outWrist.setPosition(.453);
             }
 
             if (gamepad1.left_trigger > 0) {
