@@ -153,11 +153,6 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
         outtakeLeft.setDirection(DcMotorEx.Direction.FORWARD);
         outtakeRight.setDirection(DcMotorEx.Direction.FORWARD);
 
-
-
-
-
-
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -194,33 +189,35 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
                 backRightPower  /= max;
             }
 
+            //close
             if (gamepad1.a) {
-                clawLeft.setPosition(.015);
-                clawRight.setPosition(.2);
+                clawLeft.setPosition(.3);
+                clawRight.setPosition(.6);
             }
             if (gamepad1.b) {
-                clawLeft.setPosition(0.36);
-                clawRight.setPosition(0.5);
+                clawLeft.setPosition(0.9);
+                clawRight.setPosition(0.9);
             }
             if (gamepad2.a) {
-                outTip.setPosition(.8);
+                outTip.setPosition(.9);
             }
+            //close
             if (gamepad2.b) {
-                outTip.setPosition(-.9);
+                outTip.setPosition(.07);
             }
             if (gamepad2.x) {
-                outWrist.setPosition(.453);
+                outWrist.setPosition(.47);
             }
             if (gamepad2.y) {
-                outWrist.setPosition(.8);
+                outWrist.setPosition(.85);
             }
             if (gamepad1.right_trigger > 0) {
-                outWrist.setPosition(.453);
+                outWrist.setPosition(.47);
+                //.387
             }
 
             if (gamepad1.left_trigger > 0) {
-                outWrist.setPosition(.8);
-            }
+                outWrist.setPosition(.85);}
 
             if (gamepad1.dpad_up) {
                 airLaunch.setPosition(1);

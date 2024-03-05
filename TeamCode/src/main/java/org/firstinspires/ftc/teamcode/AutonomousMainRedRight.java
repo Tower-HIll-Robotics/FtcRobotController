@@ -73,6 +73,7 @@ public class AutonomousMainRedRight extends LinearOpMode {
         outtakeLeft = hardwareMap.get(DcMotor.class, "outtakeLeft");
         outWrist = hardwareMap.get(Servo.class, "outWrist");
         outTip = hardwareMap.get(Servo.class, "outTip");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
 
         // Wait for start command from Driver Station.
@@ -80,12 +81,13 @@ public class AutonomousMainRedRight extends LinearOpMode {
         initTfod();
         waitForStart();
         // Get a list of recognitions from TFOD.
-        sleep(3000);
+        //sleep(3000);
 
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
+        /*
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
@@ -116,10 +118,14 @@ public class AutonomousMainRedRight extends LinearOpMode {
             telemetry.update();
 
         }   // end for() loop
+        */
 
+        markerPosition = 2;
 
-        clawLeft.setPosition(0.05);
-        clawRight.setPosition(0.2);
+        clawLeft.setPosition(.3);
+        clawRight.setPosition(.6);
+        armMotor.setPower(-.5);
+        armMotor.setPower(0);
 
         MoveForward(850);
 
@@ -128,32 +134,33 @@ public class AutonomousMainRedRight extends LinearOpMode {
 
             sleep(1000);
 
-            clawLeft.setPosition(0.36);
-            clawRight.setPosition(0.5);
+            clawLeft.setPosition(0.9);
+            clawRight.setPosition(0.9);
+
         }
 
         else if (markerPosition == 2) {
-            clawLeft.setPosition(0.36);
-            clawRight.setPosition(0.5);
+            clawLeft.setPosition(0.9);
+            clawRight.setPosition(0.9);
 
             sleep(1000);
 
-            TurnLeft(750);
+            TurnLeft(770);
         }
         else if (markerPosition == 3) {
             TurnRight(750);
 
             sleep(1000);
 
-            clawLeft.setPosition(0.36);
-            clawRight.setPosition(0.5);
+            clawLeft.setPosition(0.9);
+            clawRight.setPosition(0.9);
 
             sleep(500);
             TurnLeft(750);
             sleep(500);
             TurnLeft(750);
         }
-        MoveBackward(850);
+        MoveBackward(1400);
 
         sleep(1000);
         if (markerPosition == 3) {
@@ -165,7 +172,7 @@ public class AutonomousMainRedRight extends LinearOpMode {
         //align it with the board
         outWrist.setPosition(0.8);
 
-        Arm_To_Position(10);
+        Arm_To_Position(5);
 
         sleep(500);
 
@@ -174,17 +181,17 @@ public class AutonomousMainRedRight extends LinearOpMode {
         outTip.setPosition(-0.9);
 
         //drive forward
-        MoveForward(50);
+        //MoveForward(50);
 
 
     }   // end method telemetryTfod()
 
 
 
-        // Put loop blocks here.
-        // Put run blocks here.
-        // Deactivate TFOD.
-        // Put loop blocks here.
+    // Put loop blocks here.
+    // Put run blocks here.
+    // Deactivate TFOD.
+    // Put loop blocks here.
 
 
     private void Init_IMU() {
@@ -317,29 +324,29 @@ public class AutonomousMainRedRight extends LinearOpMode {
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
-        .setModelFileName("Marker")
+                .setModelFileName("Marker")
 
-        // Use setModelAssetName() if the TF Model is built in as an asset.
-        // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-        //.setModelAssetName(TFOD_MODEL_ASSET)
-        //.setModelFileName(TFOD_MODEL_FILE)
+                // Use setModelAssetName() if the TF Model is built in as an asset.
+                // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                //.setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
 
-        //.setModelLabels(LABELS)
-        //.setIsModelTensorFlow2(true)
-        //.setIsModelQuantized(true)
-        //.setModelInputSize(300)
-        //.setModelAspectRatio(16.0 / 9.0)
+                //.setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
 
-        .build();
+                .build();
 
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
 
         // Set the camera (webcam vs. built-in RC phone camera).
         if (USE_WEBCAM) {
-        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         } else {
-        builder.setCamera(BuiltinCameraDirection.BACK);
+            builder.setCamera(BuiltinCameraDirection.BACK);
         }
 
         // Choose a camera resolution. Not all cameras support all resolutions.
@@ -369,8 +376,8 @@ public class AutonomousMainRedRight extends LinearOpMode {
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
 
-        }   // end method initTfod()
+    }   // end method initTfod()
 }
-    /**
-     * Describe this function...
-     */
+/**
+ * Describe this function...
+ */
