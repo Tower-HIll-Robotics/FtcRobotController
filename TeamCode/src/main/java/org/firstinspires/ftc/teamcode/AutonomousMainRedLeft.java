@@ -161,6 +161,7 @@ public class AutonomousMainRedLeft extends LinearOpMode {
             clawRight.setPosition(0.9);
             sleep(1000);
         }
+        outTip.setPosition(.9);
         outWrist.setPosition(.2);
         MoveBackward(400);
         TurnLeft(770);
