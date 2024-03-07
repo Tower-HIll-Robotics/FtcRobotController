@@ -44,6 +44,7 @@ public class AutonomousMainRedLeft extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
 
+
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
@@ -74,6 +75,14 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         outWrist = hardwareMap.get(Servo.class, "outWrist");
         outTip = hardwareMap.get(Servo.class, "outTip");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        clawRight.setDirection(Servo.Direction.REVERSE);
+        armMotor.setTargetPosition(0);
+        outtakeLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        outtakeRight.setDirection(DcMotorEx.Direction.FORWARD);
 
 
         // Wait for start command from Driver Station.
@@ -120,68 +129,57 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         }   // end for() loop
         */
 
-        markerPosition = 2;
+        markerPosition = 1;
 
-        clawLeft.setPosition(.3);
-        clawRight.setPosition(.6);
-        //armMotor.setPower(-.5);
-        //armMotor.setPower(0);
-
+        clawLeft.setPosition(.2);
+        clawRight.setPosition(.5);
+        sleep(1000);
+        Intake_To_Position(5);
+        sleep(2000);
         MoveForward(850);
 
-        if (markerPosition == 1) {
-            TurnLeft(750);
-
-            sleep(1000);
-
-            clawLeft.setPosition(0.9);
-            clawRight.setPosition(0.9);
-
-        }
-
-        else if (markerPosition == 2) {
-            clawLeft.setPosition(0.9);
-            clawRight.setPosition(0.9);
-
-            sleep(1000);
-
-            TurnLeft(770);
-        }
-        else if (markerPosition == 3) {
-            TurnRight(750);
-
-            sleep(1000);
-
-            clawLeft.setPosition(0.9);
-            clawRight.setPosition(0.9);
-
-            sleep(500);
-            TurnLeft(750);
-            sleep(500);
-            TurnLeft(750);
-        }
-        MoveBackward(2800);
-
-        sleep(1000);
         if (markerPosition == 3) {
-            MoveLeft(10);
+            TurnRight(800);
+            sleep(1000);
+            clawLeft.setPosition(0.9);
+            clawRight.setPosition(0.9);
+            sleep(1000);
+            TurnLeft(800);
+        } else if (markerPosition == 1) {
+            TurnLeft(800);
+
+            sleep(1000);
+
+            clawLeft.setPosition(0.9);
+            clawRight.setPosition(0.9);
+
+            sleep(1000);
+            TurnRight(800);
+
+        } else if (markerPosition == 2) {
+            clawLeft.setPosition(0.9);
+            clawRight.setPosition(0.9);
+            sleep(1000);
         }
-        if (markerPosition == 1) {
-            MoveRight(10);
-        }
-        //align it with the board
+        outWrist.setPosition(.2);
+        MoveBackward(400);
+        TurnLeft(770);
+        MoveLeft(150);
+        MoveBackward(3500);
+
         outWrist.setPosition(0.8);
 
-        Arm_To_Position(5);
+        ArmForward(5);
 
         sleep(500);
 
         //open the outtake
 
-        outTip.setPosition(-0.9);
+        outTip.setPosition(.2);
 
         //drive forward
-        //MoveForward(50);
+        ArmBack(10);
+        sleep(2000);
 
 
     }   // end method telemetryTfod()
@@ -246,7 +244,7 @@ public class AutonomousMainRedLeft extends LinearOpMode {
         sleep(1000);
     }
 
-    private void Arm_To_Position(int targetPosition) {
+    private void ArmForward(int targetPosition) {
         // Reset the encoders
         outtakeLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         outtakeRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -263,6 +261,59 @@ public class AutonomousMainRedLeft extends LinearOpMode {
 
         // Loop until the motor reaches its target position
         while (outtakeLeft.getCurrentPosition() < targetPosition && outtakeRight.getCurrentPosition() < targetPosition) {
+            // Nothing while the robot moves forward
+        }
+        // Turn the motors off
+        armMotor.setPower(0);
+
+        // Sleep a quarter second to let the robot stop
+
+        sleep(1000);
+    }
+
+    private void ArmBack(int targetPosition) {
+        // Reset the encoders
+        outtakeLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        outtakeRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        // Put motors in encoder mode
+        outtakeLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        outtakeRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        outtakeLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        outtakeRight.setDirection(DcMotorEx.Direction.REVERSE);
+
+
+        // Turn on the motors using a moderate power
+        outtakeLeft.setPower(0.8);
+        outtakeRight.setPower(0.8);
+
+        // Loop until the motor reaches its target position
+        while (outtakeLeft.getCurrentPosition() < targetPosition && outtakeRight.getCurrentPosition() < targetPosition) {
+            // Nothing while the robot moves forward
+        }
+        // Turn the motors off
+        armMotor.setPower(0);
+
+        // Sleep a quarter second to let the robot stop
+
+        sleep(1000);
+    }
+
+    private void Intake_To_Position(int targetPosition) {
+        // Reset the encoders
+        armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+        // Put motors in encoder mode
+        armMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        // Turn on the motors using a moderate power
+        armMotor.setDirection(DcMotorEx.Direction.REVERSE);
+
+        armMotor.setPower(0.15);
+        // Loop until the motor reaches its target position
+        while (armMotor.getCurrentPosition() < targetPosition) {
             // Nothing while the robot moves forward
         }
         // Turn the motors off
@@ -378,6 +429,3 @@ public class AutonomousMainRedLeft extends LinearOpMode {
 
     }   // end method initTfod()
 }
-/**
- * Describe this function...
- */

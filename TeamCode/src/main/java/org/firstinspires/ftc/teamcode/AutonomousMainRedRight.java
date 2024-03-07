@@ -138,13 +138,13 @@ public class AutonomousMainRedRight extends LinearOpMode {
             Intake_To_Position(5);
             sleep(2000);
             MoveForward(150);
-            MoveRight(850);
+            MoveRight(1000);
             MoveForward(620);
             TurnLeft(770);
             clawLeft.setPosition(0.9);
             clawRight.setPosition(0.9);
             sleep(1000);
-            MoveBackward(680);
+            MoveBackward(550);
         }
         else {
             clawLeft.setPosition(.2);
@@ -178,7 +178,7 @@ public class AutonomousMainRedRight extends LinearOpMode {
             MoveRight(150);
         }
         if (markerPosition == 3) {
-            MoveLeft(200);
+            MoveLeft(300 );
         }
         //align it with the board
         outWrist.setPosition(0.8);
@@ -192,8 +192,11 @@ public class AutonomousMainRedRight extends LinearOpMode {
         outTip.setPosition(.2);
 
         //drive forward
-        MoveForward(50);
         ArmBack(10);
+        MoveForward(50);
+        sleep(2000);
+
+        outWrist.setPosition(.48);
 
 
     }   // end method telemetryTfod()
