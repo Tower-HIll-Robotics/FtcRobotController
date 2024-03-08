@@ -21,8 +21,8 @@ import java.util.List;
 
 import java.util.List;
 
-@Autonomous(name = "AutonomousMainRedLeft", preselectTeleOp = "DriveOp Main Duocontrol")
-public class AutonomousMainRedLeft extends LinearOpMode {
+@Autonomous(name = "AutonomousMainBlueRight", preselectTeleOp = "DriveOp Main Duocontrol")
+public class AutonomousMainBlueRight extends LinearOpMode {
 
     private DcMotor backRight;
     private DcMotor frontRight;

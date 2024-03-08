@@ -211,13 +211,18 @@ public class BasicOmniOpMode_ServoTest extends LinearOpMode {
             if (gamepad2.y) {
                 outWrist.setPosition(.85);
             }
+
+            // if the intake arm is going up
             if (gamepad1.right_trigger > 0) {
+                //outtake position to place on backboard
                 outWrist.setPosition(.48);
-                //.387
             }
 
+            // if the intake arm is going down
             if (gamepad1.left_trigger > 0) {
-                outWrist.setPosition(.85);}
+                //position to receive pixel
+                outWrist.setPosition(.85);
+            }
 
             if (gamepad1.dpad_up) {
                 airLaunch.setPosition(1);
